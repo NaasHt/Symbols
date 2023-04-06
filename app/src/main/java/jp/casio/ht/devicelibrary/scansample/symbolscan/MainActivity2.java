@@ -340,45 +340,48 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 
-    private void setBarcode(String barcode) {
+    private void setBarcode(String scannedBarcode) {
         if (!Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
             Log.i("State", "Yes is readable!");
             return;
         }
-        if(barcode.length()>=4) {
-            SmallBarcode.setText(barcode.substring(barcode.length() - 4));
+        if(scannedBarcode.length()>=4) {
+            SmallBarcode.setText(scannedBarcode.substring(scannedBarcode.length() - 4));
         }
-        else if (barcode.startsWith("260")) {
-            mTextView1.setText(barcode.substring(3)); // remove first 3 characters
-        } else if (barcode.startsWith("27")) {
-            mTextView1.setText(barcode.substring(2)); // remove first 2 characters
+        String barcode;
+        if (scannedBarcode.startsWith("260")) {
+            barcode = scannedBarcode.substring(3, 7); // remove first 3 characters
+            mTextView1.setText(barcode); // remove first 3 characters
+        } else if (scannedBarcode.startsWith("27")) {
+            barcode = scannedBarcode.substring(2, 8); // remove first 2 characters
+            mTextView1.setText(barcode);
+        } else if (scannedBarcode.startsWith("23")) {
+            barcode = scannedBarcode.substring(2,8); // remove first 2 characters
+            mTextView1.setText(barcode);
+        } else {
+            barcode = scannedBarcode;
         }
 
-        boolean wasBound = fillByBarcode(barcode);
+//        boolean wasBound = fillByBarcode(barcode);
+        boolean wasBound = fillByBarcode(scannedBarcode);
         if (wasBound) {
             fillDefaultQuantity("1");
             fillTotalAmount(barcode);
-
         } else {
             tvNextLine.setText("------------");
             mTextView2.setText("------------");
             final MediaPlayer noName = MediaPlayer.create(this, R.raw.scansuccess2);
             noName.start();
-            if (barcode.startsWith("23")) {
-                double weight = Integer.parseInt(barcode.substring(8, 12)) / 1000.0;
+            if (scannedBarcode.startsWith("23")) {
+                double weight = Integer.parseInt(scannedBarcode.substring(8, 12)) / 1000.0;
                 fillDefaultQuantity((String.valueOf(weight)));
-                //mTextView1.setText(barcode.substring(2, 8));
-
-            } else if (barcode.startsWith("260")) {
-                int quantity =  Integer.parseInt(barcode.substring(7, 12));
+            } else if (scannedBarcode.startsWith("260")) {
+                int quantity =  Integer.parseInt(scannedBarcode.substring(7, 12));
                 fillDefaultQuantity(String.valueOf(quantity));
-                //mTextView1.setText(barcode.substring(3, 8));
-
-            } else if (barcode.startsWith("27")) {
-                double weight = Integer.parseInt(barcode.substring(8, 12)) / 1000.0;
+            } else if (scannedBarcode.startsWith("27")) {
+                double weight = Integer.parseInt(scannedBarcode.substring(8, 12)) / 1000.0;
                 fillDefaultQuantity((String.valueOf(weight)));
-                mTextView1.setText(barcode.substring(2, 7));
             }
             else {
                 fillDefaultQuantity("1");
