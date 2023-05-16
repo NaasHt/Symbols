@@ -354,7 +354,7 @@ public class MainActivity2 extends AppCompatActivity {
             barcode = scannedBarcode.substring(3, 7); // remove first 3 characters
             mTextView1.setText(barcode); // remove first 3 characters
         } else if (scannedBarcode.startsWith("27")) {
-            barcode = scannedBarcode.substring(2, 8); // remove first 2 characters
+            barcode = scannedBarcode.substring(2, 7); // remove first 2 characters
             mTextView1.setText(barcode);
         } else if (scannedBarcode.startsWith("23")) {
             barcode = scannedBarcode.substring(2,8); // remove first 2 characters
