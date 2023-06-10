@@ -353,12 +353,15 @@ public class MainActivity2 extends AppCompatActivity {
         if (scannedBarcode.startsWith("260")) {
             barcode = scannedBarcode.substring(3, 7); // remove first 3 characters
             mTextView1.setText(barcode); // remove first 3 characters
+            SmallBarcode.setText(barcode);
         } else if (scannedBarcode.startsWith("27")) {
             barcode = scannedBarcode.substring(2, 7); // remove first 2 characters
             mTextView1.setText(barcode);
+            SmallBarcode.setText(barcode.substring(barcode.length() - 4));
         } else if (scannedBarcode.startsWith("23")) {
             barcode = scannedBarcode.substring(2,8); // remove first 2 characters
             mTextView1.setText(barcode);
+            SmallBarcode.setText(barcode.substring(barcode.length() - 4));
         } else {
             barcode = scannedBarcode;
         }
@@ -380,7 +383,7 @@ public class MainActivity2 extends AppCompatActivity {
                 int quantity =  Integer.parseInt(scannedBarcode.substring(7, 12));
                 fillDefaultQuantity(String.valueOf(quantity));
             } else if (scannedBarcode.startsWith("27")) {
-                double weight = Integer.parseInt(scannedBarcode.substring(8, 12)) / 1000.0;
+                double weight = Integer.parseInt(scannedBarcode.substring(7, 12)) / 1000.0;
                 fillDefaultQuantity((String.valueOf(weight)));
             }
             else {
